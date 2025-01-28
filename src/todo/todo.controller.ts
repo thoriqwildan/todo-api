@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { TodoService } from "./todo.service";
 import { Auth } from "src/common/auth.decorator";
 import { User } from "@prisma/client";
@@ -41,6 +41,19 @@ export class TodoController {
 
         return {
             data: result
+        }
+    }
+
+    @Delete('/:todoId')
+    @HttpCode(200)
+    async remove(
+        @Auth() user: User,
+        @Param('todoId', ParseIntPipe) todo_id: number
+    ): Promise<WebResponse<boolean>> {
+        const result = await this.todoService.remove(user, todo_id)
+
+        return {
+            data: true
         }
     }
 }

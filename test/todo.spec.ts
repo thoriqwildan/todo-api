@@ -141,27 +141,31 @@ describe('Todo Controller', () => {
     });
   })
 
-  // Logout User
-  describe('DELETE /api/users/current', () => {
+  // Remove Todo
+  describe('DELETE /api/todos/:todoId', () => {
     beforeEach(async () => {
+      await testService.deleteTodo()
       await testService.deleteUser();
       await testService.createUser()
+      await testService.createTodo()
     });
 
     it('should be rejected if request is invalid', async () => {
+      const todo = await testService.getTodo()
       const response = await request(app.getHttpServer())
-        .delete('/api/users/current')
-        .set('Authorization', 'sakah')
+        .delete(`/api/todos/${todo?.id! + 1}`)
+        .set('Authorization', 'test')
 
       logger.info(response.body);
 
-      expect(response.status).toBe(401);
-      expect(response.body.errors).toBe('Unauthorized');
+      expect(response.status).toBe(404);
+      expect(response.body.errors).toBeDefined()
     });
 
     it('should be able to logout user', async () => {
+      const todo = await testService.getTodo()
       const response = await request(app.getHttpServer())
-        .delete('/api/users/current')
+        .delete(`/api/todos/${todo?.id}`)
         .set('Authorization', 'test')
 
       logger.info(response.body);

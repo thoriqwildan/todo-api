@@ -75,4 +75,17 @@ export class TodoService {
 
         return this.toTodoResponse(todo)
     }
+
+    async remove(user: User, todoId: number): Promise<TodoResponse> {
+        let todo = await this.checkTodoMustExists(todoId)
+
+        todo = await this.prismaService.todo.delete({
+            where: {
+                id: todo.id,
+                username: user.username
+            }
+        })
+
+        return this.toTodoResponse(todo)
+    }
 }
