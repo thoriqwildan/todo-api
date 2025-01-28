@@ -9,3 +9,8 @@ export class RegisterUserRequest {
     name: string
     password: string
 }
+
+export class LoginUserRequest {
+    username: string
+    password: string
+}
