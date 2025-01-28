@@ -98,42 +98,46 @@ describe('Todo Controller', () => {
     });
   })
 
-  // Update User
-  describe('PATCH /api/users/current', () => {
+  // Update Todo
+  describe('PUT /api/todos/:todoId', () => {
     beforeEach(async () => {
+      await testService.deleteTodo()
       await testService.deleteUser();
       await testService.createUser()
+      await testService.createTodo()
     });
 
-    it('should be rejected if request is invalid', async () => {
+    it('should be rejected if request is not found', async () => {
+      const todo = await testService.getTodo()
       const response = await request(app.getHttpServer())
-        .patch('/api/users/current')
+        .put(`/api/todos/${todo?.id! + 1}`)
         .set('Authorization', 'test')
         .send({
-          name: '',
-          password: ''
+          checklist: true,
+          todoname: 'Masak Ikan'
         })
 
       logger.info(response.body);
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined()
     });
 
-    it('should be able to update user', async () => {
-      const response = await request(app.getHttpServer())
-        .patch('/api/users/current')
-        .set('Authorization', 'test')
-        .send({
-          name: 'test updated',
-          password: 'test123'
-        })
+    it('should be able to update todo', async () => {
+        const todo = await testService.getTodo()
+        const response = await request(app.getHttpServer())
+          .put(`/api/todos/${todo?.id}`)
+          .set('Authorization', 'test')
+          .send({
+            checklist: true,
+            todoname: 'Masak Ikan'
+          })
 
       logger.info(response.body);
 
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('test')
-      expect(response.body.data.name).toBe('test updated')
+      expect(response.body.data.checklist).toBe(true)
+      expect(response.body.data.todoname).toBe('Masak Ikan')
     });
   })
 

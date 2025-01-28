@@ -42,4 +42,12 @@ export class TestService {
             }
         })
     }
+
+    async getTodo() {
+        return await this.prismaService.todo.findFirst({
+            where: {
+                username: 'test'
+            }
+        })
+    }
 }

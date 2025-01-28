@@ -8,3 +8,9 @@ export class CreateTodoRequest {
     checklist?: boolean
     todoname: string
 }
+
+export class UpdateTodoRequest {
+    id: number
+    checklist?: boolean
+    todoname: string
+}
