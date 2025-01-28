@@ -1,4 +1,4 @@
 export class WebResponse<T> {
-    data?: T
-    errors?: string
+  data?: T;
+  errors?: string;
 }

@@ -10,8 +10,8 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 describe('User Controller', () => {
   let app: INestApplication<App>;
-  let logger: Logger
-  let testService: TestService
+  let logger: Logger;
+  let testService: TestService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -21,14 +21,14 @@ describe('User Controller', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
 
-    logger = app.get(WINSTON_MODULE_PROVIDER)
-    testService = app.get(TestService)
+    logger = app.get(WINSTON_MODULE_PROVIDER);
+    testService = app.get(TestService);
   });
 
   // Register User
   describe('POST /api/users', () => {
     beforeEach(async () => {
-      await testService.deleteTodo()
+      await testService.deleteTodo();
       await testService.deleteUser();
     });
 
@@ -64,7 +64,7 @@ describe('User Controller', () => {
     });
 
     it('should be rejected if username already exists', async () => {
-      await testService.createUser()
+      await testService.createUser();
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
@@ -76,16 +76,16 @@ describe('User Controller', () => {
       logger.info(response.body);
 
       expect(response.status).toBe(400);
-      expect(response.body.errors).toBeDefined()
+      expect(response.body.errors).toBeDefined();
     });
-  })
+  });
 
   // Login User
   describe('POST /api/users/login', () => {
     beforeEach(async () => {
-      await testService.deleteTodo()
+      await testService.deleteTodo();
       await testService.deleteUser();
-      await testService.createUser()
+      await testService.createUser();
     });
 
     it('should be rejected if request is invalid', async () => {
@@ -93,7 +93,7 @@ describe('User Controller', () => {
         .post('/api/users/login')
         .send({
           username: '',
-          password: ''
+          password: '',
         });
 
       logger.info(response.body);
@@ -107,7 +107,7 @@ describe('User Controller', () => {
         .post('/api/users/login')
         .send({
           username: 'test',
-          password: 'test'
+          password: 'test',
         });
 
       logger.info(response.body);
@@ -123,28 +123,28 @@ describe('User Controller', () => {
         .post('/api/users/login')
         .send({
           username: 'test',
-          password: 'salah'
+          password: 'salah',
         });
 
       logger.info(response.body);
 
       expect(response.status).toBe(401);
-      expect(response.body.errors).toBeDefined()
+      expect(response.body.errors).toBeDefined();
     });
-  })
+  });
 
   // Get User
   describe('GET /api/users/current', () => {
     beforeEach(async () => {
-      await testService.deleteTodo()
+      await testService.deleteTodo();
       await testService.deleteUser();
-      await testService.createUser()
+      await testService.createUser();
     });
 
     it('should be rejected if request is invalid', async () => {
       const response = await request(app.getHttpServer())
         .get('/api/users/current')
-        .set('Authorization', 'salah')
+        .set('Authorization', 'salah');
 
       logger.info(response.body);
 
@@ -155,7 +155,7 @@ describe('User Controller', () => {
     it('should be able to get user', async () => {
       const response = await request(app.getHttpServer())
         .get('/api/users/current')
-        .set('Authorization', 'test')
+        .set('Authorization', 'test');
 
       logger.info(response.body);
 
@@ -163,14 +163,14 @@ describe('User Controller', () => {
       expect(response.body.data.username).toBe('test');
       expect(response.body.data.name).toBe('test');
     });
-  })
+  });
 
   // Update User
   describe('PATCH /api/users/current', () => {
     beforeEach(async () => {
-      await testService.deleteTodo()
+      await testService.deleteTodo();
       await testService.deleteUser();
-      await testService.createUser()
+      await testService.createUser();
     });
 
     it('should be rejected if request is invalid', async () => {
@@ -179,13 +179,13 @@ describe('User Controller', () => {
         .set('Authorization', 'test')
         .send({
           name: '',
-          password: ''
-        })
+          password: '',
+        });
 
       logger.info(response.body);
 
       expect(response.status).toBe(400);
-      expect(response.body.errors).toBeDefined()
+      expect(response.body.errors).toBeDefined();
     });
 
     it('should be able to update user', async () => {
@@ -194,29 +194,29 @@ describe('User Controller', () => {
         .set('Authorization', 'test')
         .send({
           name: 'test updated',
-          password: 'test123'
-        })
+          password: 'test123',
+        });
 
       logger.info(response.body);
 
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('test')
-      expect(response.body.data.name).toBe('test updated')
+      expect(response.body.data.username).toBe('test');
+      expect(response.body.data.name).toBe('test updated');
     });
-  })
+  });
 
   // Logout User
   describe('DELETE /api/users/current', () => {
     beforeEach(async () => {
-      await testService.deleteTodo()
+      await testService.deleteTodo();
       await testService.deleteUser();
-      await testService.createUser()
+      await testService.createUser();
     });
 
     it('should be rejected if request is invalid', async () => {
       const response = await request(app.getHttpServer())
         .delete('/api/users/current')
-        .set('Authorization', 'sakah')
+        .set('Authorization', 'sakah');
 
       logger.info(response.body);
 
@@ -227,12 +227,12 @@ describe('User Controller', () => {
     it('should be able to logout user', async () => {
       const response = await request(app.getHttpServer())
         .delete('/api/users/current')
-        .set('Authorization', 'test')
+        .set('Authorization', 'test');
 
       logger.info(response.body);
 
       expect(response.status).toBe(200);
-      expect(response.body.data).toBe(true)
+      expect(response.body.data).toBe(true);
     });
-  })
+  });
 });
