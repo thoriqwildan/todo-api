@@ -24,4 +24,22 @@ export class TestService {
             }
         })
     }
+
+    async deleteTodo() {
+        await this.prismaService.todo.deleteMany({
+            where: {
+                username: 'test'
+            }
+        })
+    }
+
+    async createTodo() {
+        await this.prismaService.todo.create({
+            data: {
+                checklist: false,
+                todoname: 'Masak ayam',
+                username: 'test'
+            }
+        })
+    }
 }
