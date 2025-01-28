@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Ini adalah Rest API ToDo List menggunakan [Nest](https://github.com/nestjs/nest) framework.
 
 ## Project setup
 
@@ -50,9 +50,6 @@ $ npm run start:prod
 ```bash
 # unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
@@ -87,12 +84,6 @@ Check out a few resources that may come in handy when working with NestJS:
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
